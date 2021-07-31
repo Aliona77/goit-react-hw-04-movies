@@ -9,7 +9,7 @@ const MovieList = ({ movies, location }) => {
   return (
     <ul className={styles.list}>
       {movies.map(({ title, id, poster_path, name }) => (
-        <li key={id} className={styles.card}>
+        <li key={id}>
           <NavLink
             to={{
               pathname: `/movies/${id}`,
@@ -19,7 +19,7 @@ const MovieList = ({ movies, location }) => {
             }}
           >
             <img
-              className={styles.image}
+              className={styles.card}
               src={poster_path ? `${imageSrc}${poster_path}` : defaultImg}
               alt={title}
             />

@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import { fetchMovieCredits } from '../../servises/moviesApi';
 import PropTypes from 'prop-types';
+import styles from './Cast.module.css';
+import defaultImg from '../../images/default.jpg';
+
+const imageSrc = 'https://image.tmdb.org/t/p/w500';
 
 class Cast extends Component {
   state = {
@@ -18,14 +22,16 @@ class Cast extends Component {
   render() {
     return (
       <>
-        <ul>
+        <ul className={styles.list}>
           {this.state.cast.map(({ id, profile_path, name, character }) => (
-            <li key={id}>
+            <li key={id} className={styles.item}>
               <img
-                src={`https://image.tmdb.org/t/p/w500${profile_path}`}
+                src={profile_path ? ` ${imageSrc}${profile_path}` : defaultImg}
                 alt={name}
+                className={styles.imgCard}
               />
-              <p>{character}</p>
+              <p className={styles.name}>{name}</p>
+              <p className={styles.character}>{character}</p>
             </li>
           ))}
         </ul>

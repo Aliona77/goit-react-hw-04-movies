@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import SearchBar from '../../components/SearchBar/SearchBar';
-import { fetchMovieSearch } from '../../servises/moviesApi';
-import MovieList from '../../components/MovieList/MovieList';
+import SearchBar from '../components/SearchBar/SearchBar';
+import { fetchMovieSearch } from '../servises/moviesApi';
+import MovieList from '../components/MovieList/MovieList';
 
 class MoviesPage extends Component {
   state = {

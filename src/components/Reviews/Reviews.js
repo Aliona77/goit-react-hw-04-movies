@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { fetchMovieReviews } from '../../servises/moviesApi';
+import styles from './Reviews.module.css';
 
 class Reviews extends Component {
   state = {
@@ -18,9 +19,9 @@ class Reviews extends Component {
       <>
         <ul>
           {this.state.reviews.map(({ id, author, content }) => (
-            <li keu={id}>
-              <h3>Author: {author}</h3>
-              <p>{content}</p>
+            <li key={id}>
+              <h3 className={styles.title}>Author: {author}</h3>
+              <p className={styles.text}>{content}</p>
             </li>
           ))}
         </ul>
