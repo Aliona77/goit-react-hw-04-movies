@@ -4,13 +4,23 @@ import AppBar from './components/AppBar/AppBar';
 import Container from './components/Container/Container';
 import Spiner from './components/Spinner/Spinner';
 
-const HomePage = lazy(() => import('./pages/HomePage'));
+const HomePage = lazy(() =>
+  import('./pages/HomePage.js' /*webpackChunkName: "home-page" */),
+);
 
-const MoviesPage = lazy(() => import('./pages/MoviesPage'));
+const MoviesPage = lazy(() =>
+  import('./pages/MoviesPage.js' /*webpackChunkName: "movies-page" */),
+);
 
-const MovieDetailsPage = lazy(() => import('./pages/MovieDetailsPage'));
+const MovieDetailsPage = lazy(() =>
+  import(
+    './pages/MovieDetailsPage.js' /*webpackChunkName: "movies-details-page" */
+  ),
+);
 
-const NotFoundMovies = lazy(() => import('./pages/NotFoundMovies.js'));
+const NotFoundMovies = lazy(() =>
+  import('./pages/NotFoundMovies.js' /*webpackChunkName: "not-found-page" */),
+);
 
 const App = () => (
   <Container>
