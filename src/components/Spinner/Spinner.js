@@ -1,4 +1,4 @@
-import styles from './Spiner.module.css';
+import styles from './Spinner.module.css';
 import Loader from 'react-loader-spinner';
 
 export default function Spiner() {
@@ -7,8 +7,8 @@ export default function Spiner() {
       <Loader
         type="ThreeDots"
         color="#00BFFF"
-        height={80}
-        width={80}
+        height={100}
+        width={100}
         timeout={0}
       />
     </div>

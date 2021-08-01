@@ -1,18 +1,21 @@
-import React, { Suspense } from 'react';
+import React, { lazy, Suspense } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import AppBar from './components/AppBar/AppBar';
-import HomePage from './pages/HomePage';
-import MoviesPage from './pages/MoviesPage';
-import MovieDetailsPage from './pages/MovieDetailsPage';
-import NotFoundMovies from './pages/NotFoundMovies';
 import Container from './components/Container/Container';
-import Spinner from './components/Spiner/Spiner';
+import Spiner from './components/Spinner/Spinner';
+
+const HomePage = lazy(() => import('./pages/HomePage'));
+
+const MoviesPage = lazy(() => import('./pages/MoviesPage'));
+
+const MovieDetailsPage = lazy(() => import('./pages/MovieDetailsPage'));
+
+const NotFoundMovies = lazy(() => import('./pages/NotFoundMovies.js'));
 
 const App = () => (
   <Container>
-    <Suspense fallback={<Spinner />}>
-      <AppBar />
-
+    <AppBar />
+    <Suspense fallback={<Spiner />}>
       <Switch>
         <Route exact path="/" component={HomePage} />
         <Route exact path="/movies" component={MoviesPage} />
