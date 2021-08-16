@@ -1,11 +1,12 @@
 import React from 'react';
-import { NavLink, withRouter } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import styles from './MovieList.module.css';
 import defaultImg from '../../images/default.jpg';
 
 const imageSrc = 'https://image.tmdb.org/t/p/original';
 
-const MovieList = ({ movies, location }) => {
+const MovieList = ({ movies }) => {
+  const location = useLocation();
   return (
     <ul className={styles.list}>
       {movies.map(({ title, id, poster_path, name }) => (
@@ -13,9 +14,7 @@ const MovieList = ({ movies, location }) => {
           <NavLink
             to={{
               pathname: `/movies/${id}`,
-              state: {
-                from: location,
-              },
+              state: { from: location },
             }}
           >
             <img
@@ -31,4 +30,4 @@ const MovieList = ({ movies, location }) => {
   );
 };
 
-export default withRouter(MovieList);
+export default MovieList;

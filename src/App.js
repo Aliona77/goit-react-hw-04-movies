@@ -3,6 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 import AppBar from './components/AppBar/AppBar';
 import Container from './components/Container/Container';
 import Spiner from './components/Spinner/Spinner';
+import routes from './routes';
 
 const HomePage = lazy(() =>
   import('./pages/HomePage.js' /*webpackChunkName: "home-page" */),
@@ -27,9 +28,9 @@ const App = () => (
     <AppBar />
     <Suspense fallback={<Spiner />}>
       <Switch>
-        <Route exact path="/" component={HomePage} />
-        <Route exact path="/movies" component={MoviesPage} />
-        <Route path="/movies/:movieId" component={MovieDetailsPage} />
+        <Route exact path={routes.home} component={HomePage} />
+        <Route exact path={routes.movies} component={MoviesPage} />
+        <Route path={routes.movieDetails} component={MovieDetailsPage} />
         <Route component={NotFoundMovies} />
       </Switch>
     </Suspense>

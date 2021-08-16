@@ -7,23 +7,45 @@ import MovieList from '../components/MovieList/MovieList';
 class MoviesPage extends Component {
   state = {
     movies: [],
-    error: null,
+    query: '',
   };
+  componentDidMount() {
+    const { location } = this.props;
+    const searchParams = new URLSearchParams(location.search);
 
-  onSearchQuery = query => {
-    this.setState({ error: null });
-    fetchMovieSearch(query)
-      .then(movies => {
-        this.setState({ movies });
-      })
-      .catch(error => this.setState({ error }));
+    const query = searchParams.has('query') ? searchParams.get('query') : null;
+
+    if (query) {
+      this.setState({ query });
+    }
+  }
+  componentDidUpdate(_, prevState) {
+    if (prevState.query !== this.state.query) {
+      this.onSearchQuery();
+    }
+  }
+  onSearchQuery = () => {
+    const { query } = this.state;
+    fetchMovieSearch(query).then(movies => {
+      this.setState({ query: query, movies: movies });
+    });
   };
+  onChangeQuery = seachQuery => {
+    this.setState({
+      query: seachQuery,
+    });
 
+    this.props.history.push({
+      pathname: this.props.location.pathname,
+      search: `query=${seachQuery}`,
+    });
+  };
   render() {
+    const { movies } = this.state;
     return (
       <>
-        <SearchBar onSubmit={this.onSearchQuery} />
-        <MovieList movies={this.state.movies} />
+        <SearchBar onSubmit={this.onChangeQuery} />
+        {movies && <MovieList movies={movies} />}
       </>
     );
   }

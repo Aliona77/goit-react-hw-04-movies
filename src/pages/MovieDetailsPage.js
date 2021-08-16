@@ -4,6 +4,7 @@ import Cast from '../components/Cast/Cast';
 import Reviews from '../components/Reviews/Reviews';
 import { NavLink, Route } from 'react-router-dom';
 import styles from '../components/MovieList/MovieList.module.css';
+import routes from '../routes';
 
 class MovieDetailsPage extends Component {
   state = {
@@ -15,24 +16,20 @@ class MovieDetailsPage extends Component {
     poster_path: null,
   };
 
-  async componentDidMount() {
-    const { movieId } = this.props.match.params;
-    fetchMovieDetails(movieId).then(movies => {
-      this.setState({ ...movies });
+  componentDidMount() {
+    const movieId = this.props.match.params.movieId;
+    fetchMovieDetails(movieId).then(data => {
+      this.setState({ ...data });
     });
   }
 
   clickGoBack = () => {
     const { location, history } = this.props;
-    if (location.state && location.state.from) {
-      return history.push(location.state.from);
-    }
-
-    history.push(`/`);
+    history.push(location?.state?.from || routes.home);
   };
 
   render() {
-    const { match } = this.props;
+    const { match, location } = this.props;
     const { title, poster_path, overview, vote_average, genres } = this.state;
     return (
       <>
@@ -45,7 +42,7 @@ class MovieDetailsPage extends Component {
         </button>
         <img
           className={styles.card}
-          src={`https://image.tmdb.org/t/p/w500${poster_path}`}
+          src={`https://image.tmdb.org/t/p/w342/${poster_path}`}
           alt=""
         />
         <h2 className={styles.cardTitle}>{title}</h2>
@@ -60,19 +57,37 @@ class MovieDetailsPage extends Component {
         <p className={styles.titleInfo}>Additional information</p>
         <ul>
           <li>
-            <NavLink className={styles.navLink} to={`${match.url}/cast`}>
+            <NavLink
+              className={styles.navLink}
+              to={{
+                pathname: `${match.url}${routes.cast}`,
+                state: { from: location.state },
+              }}
+            >
               Cast
             </NavLink>
           </li>
           <li>
-            <NavLink className={styles.navLink} to={`${match.url}/reviews`}>
+            <NavLink
+              className={styles.navLink}
+              to={{
+                pathname: `${match.url}${routes.reviews}`,
+                state: {
+                  from: location.state,
+                },
+              }}
+            >
               Reviews
             </NavLink>
           </li>
         </ul>
 
-        <Route exact path={`${match.path}/cast`} component={Cast} />
-        <Route exact path={`${match.path}/reviews`} component={Reviews} />
+        <Route exact path={`${match.path}${routes.cast}`} component={Cast} />
+        <Route
+          exact
+          path={`${match.path}${routes.reviews}`}
+          component={Reviews}
+        />
       </>
     );
   }
