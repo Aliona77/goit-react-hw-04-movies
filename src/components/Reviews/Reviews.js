@@ -1,31 +1,33 @@
 import React, { Component } from 'react';
-import { fetchMovieReviews } from '../../servises/moviesApi';
+import { movieReviews } from '../../servises/moviesApi';
 import styles from './Reviews.module.css';
 
 class Reviews extends Component {
   state = {
-    reviews: [],
+    review: [],
   };
 
   async componentDidMount() {
     const { movieId } = this.props.match.params;
 
-    fetchMovieReviews(movieId).then(reviews => {
-      this.setState({ reviews });
-    });
+    const response = await movieReviews(movieId);
+    this.setState({ review: response.results });
   }
   render() {
+    const { review } = this.state;
     return (
-      <>
-        <ul>
-          {this.state.reviews.map(({ id, author, content }) => (
-            <li key={id}>
-              <h3 className={styles.title}>Author: {author}</h3>
-              <p className={styles.text}>{content}</p>
+      <ul>
+        {review.length !== 0 ? (
+          review.map(revie => (
+            <li key={revie.id}>
+              <h3 className={styles.title}>Author: {revie.author}</h3>
+              <p className={styles.text}>{revie.content}</p>
             </li>
-          ))}
-        </ul>
-      </>
+          ))
+        ) : (
+          <p>We don't have any reviews for this movie</p>
+        )}
+      </ul>
     );
   }
 }

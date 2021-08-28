@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { fetchMovieCredits } from '../../servises/moviesApi';
+import { movieCredits } from '../../servises/moviesApi';
 import PropTypes from 'prop-types';
 import styles from './Cast.module.css';
 import defaultImg from '../../images/default.jpg';
@@ -14,28 +14,31 @@ class Cast extends Component {
   async componentDidMount() {
     const { movieId } = this.props.match.params;
 
-    fetchMovieCredits(movieId).then(cast => {
-      this.setState({ cast });
-    });
+    const response = await movieCredits(movieId);
+    this.setState({ cast: response.cast });
   }
 
   render() {
+    const casts = this.state.cast;
     return (
-      <>
-        <ul className={styles.list}>
-          {this.state.cast.map(({ id, profile_path, name, character }) => (
-            <li key={id} className={styles.item}>
+      <ul className={styles.list}>
+        {this.state.cast.length !== 0 &&
+          casts.map(cast => (
+            <li key={cast.id} className={styles.item}>
               <img
-                src={profile_path ? ` ${imageSrc}${profile_path}` : defaultImg}
-                alt={name}
+                src={
+                  cast.profile_path
+                    ? ` ${imageSrc}${cast.profile_path}`
+                    : defaultImg
+                }
+                alt={cast.name}
                 className={styles.imgCard}
               />
-              <p className={styles.name}>{name}</p>
-              <p className={styles.character}>{character}</p>
+              <p className={styles.name}>{cast.name}</p>
+              <p className={styles.character}>{cast.character}</p>
             </li>
           ))}
-        </ul>
-      </>
+      </ul>
     );
   }
 }

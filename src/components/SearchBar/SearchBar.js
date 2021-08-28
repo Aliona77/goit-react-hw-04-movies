@@ -1,26 +1,33 @@
 import React, { Component } from 'react';
 import styles from './SearchBar.module.css';
+import PropTypes from 'prop-types';
 
 class SearchBar extends Component {
-  state = { query: '' };
+  state = {
+    query: '',
+  };
 
   handleChange = event => {
-    this.setState({ query: event.currentTarget.value });
+    this.setState({
+      query: event.currentTarget.value,
+    });
   };
 
   handleSubmit = event => {
     event.preventDefault();
-    this.props.onSubmit(this.state.query);
+    const { onSubmit } = this.props;
+    onSubmit(this.state.query);
+
+    this.reset();
+  };
+
+  reset = () => {
     this.setState({ query: '' });
   };
 
   render() {
     return (
       <form className={styles.form} onSubmit={this.handleSubmit}>
-        <button className={styles.button} type="submit">
-          <span></span>
-        </button>
-
         <input
           className={styles.input}
           value={this.state.query}
@@ -30,9 +37,15 @@ class SearchBar extends Component {
           autoFocus
           placeholder="Search movies"
         />
+        <button className={styles.button} type="submit">
+          <span></span>
+        </button>
       </form>
     );
   }
 }
+SearchBar.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+};
 
 export default SearchBar;

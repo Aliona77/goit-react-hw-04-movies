@@ -29,8 +29,8 @@ const App = () => (
     <Suspense fallback={<Spiner />}>
       <Switch>
         <Route exact path={routes.home} component={HomePage} />
-        <Route exact path={routes.movies} component={MoviesPage} />
         <Route path={routes.movieDetails} component={MovieDetailsPage} />
+        <Route path={routes.moviesPage} component={MoviesPage} />
         <Route component={NotFoundMovies} />
       </Switch>
     </Suspense>
